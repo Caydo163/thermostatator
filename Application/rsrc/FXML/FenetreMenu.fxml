@@ -10,12 +10,12 @@
    <center>
       <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Thermostat" onAction="#boutonThermostat">
+            <Button mnemonicParsing="false" text="Thermostat" onAction="#clicBoutonSlider" fx:id="boutonSlider">
                <HBox.margin>
-                  <Insets right="20.0" />
+                  <Insets right="20.0"/>
                </HBox.margin>
             </Button>
-            <Button mnemonicParsing="false" text="Image" onAction="#boutonImage"/>
+            <Button mnemonicParsing="false" text="Image" onAction="#clicBoutonImage"/>
          </children>
       </HBox>
    </center>

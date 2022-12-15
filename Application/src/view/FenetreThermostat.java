@@ -1,14 +1,14 @@
 package view;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.CTemperature;
 import model.Capteur;
 import model.Visualisateur;
-
-import java.awt.event.ActionEvent;
 
 public class FenetreThermostat extends Visualisateur {
 
@@ -18,15 +18,15 @@ public class FenetreThermostat extends Visualisateur {
     @FXML
     private Slider slider;
 
-    private CTemperature capteur;
+    //private CTemperature capteur;
 
     public FenetreThermostat(CTemperature capteur) {
         super(capteur);
     }
 
     @FXML
-    public void onChange(ActionEvent e) {
-        capteur.setTemperature(15);
+    public void onChange() {
+
     }
 
     @FXML

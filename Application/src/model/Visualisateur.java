@@ -1,7 +1,7 @@
 package model;
 
 public abstract class Visualisateur  {
-    private Capteur capteur;
+    protected CTemperature capteur;
 
     public Visualisateur(CTemperature capteur) {
         this.capteur = capteur;
