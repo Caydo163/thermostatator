@@ -7,12 +7,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
+import model.CTempManuel;
 import model.CTemperature;
 
 import java.io.IOException;
 
 public class FenetreMenu {
-    private CTemperature capteur = new CTemperature("Capteur 1",5);
+    private CTemperature capteur = new CTempManuel("Capteur 1",5);
 
     @FXML
     private Button boutonSlider;
