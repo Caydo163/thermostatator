@@ -1,21 +1,28 @@
 package model;
 
 import javafx.application.Platform;
+import launch.Console;
+
+import java.util.Random;
 
 public class TemperatureGenerateur extends Thread{
 
-    public  TemperatureGenerateur(CTemperature c) {
-        while(true) {
-            Platform.runLater(() -> {
-                //c.setTemperature()
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-        }
+    private CTempAuto capteur;
 
+    public TemperatureGenerateur(CTempAuto capteur) {
+        this.capteur = capteur;
     }
-
+    @Override
+    public void run() {
+        while(true) {
+            try {
+                Thread.sleep(1000);
+                Platform.runLater(() -> {
+                    capteur.compute();
+                });
+            } catch (InterruptedException e) {
+                break;
+            }
+        }
+    }
 }

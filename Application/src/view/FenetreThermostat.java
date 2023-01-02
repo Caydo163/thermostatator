@@ -13,7 +13,7 @@ import model.Visualisateur;
 public class FenetreThermostat extends Visualisateur {
 
     @FXML
-    private Text nomCapteur;
+    private Text valTemperature;
 
     @FXML
     private Slider slider;
@@ -37,6 +37,7 @@ public class FenetreThermostat extends Visualisateur {
 
     public void initialize() {
         slider.valueProperty().bindBidirectional(capteur.temperatureProperty());
+        valTemperature.textProperty().bind(capteur.temperatureProperty().asString());
     }
 
 /*

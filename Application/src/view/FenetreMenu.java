@@ -7,13 +7,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
-import model.CTempManuel;
-import model.CTemperature;
+import model.*;
 
 import java.io.IOException;
 
 public class FenetreMenu {
-    private CTemperature capteur = new CTempManuel("Capteur 1",5);
+    //private CTemperature capteur = new CTempManuel("Capteur 1",0);
+    //private CTemperature capteur = new CTempAutoIntervalle("Capteur 1", 0, 10);
+    //private CTemperature capteur = new CTempAutoAlea("Capteur 1");
+    private CTemperature capteur = new CTempAutoVariation("Capteur 1", 20, 10);
 
     @FXML
     private Button boutonSlider;
@@ -39,5 +41,11 @@ public class FenetreMenu {
         Scene scene = new Scene(root);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void initialize() {
+        if(capteur instanceof CTempAuto) {
+            new TemperatureGenerateur((CTempAuto) capteur).start();
+        }
     }
 }

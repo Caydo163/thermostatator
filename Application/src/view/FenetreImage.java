@@ -33,15 +33,14 @@ public class FenetreImage extends Visualisateur {
     }*/
 
 
-    private static final int SOLEIL = 20;
-    private static final int NUAGE = 20;
-    private static final int NEIGE = 10;
+    private static final int NUAGE = 25;
+    private static final int NEIGE = 0;
 
     private void changeImage() {
         String file;
-        if(capteur.temperatureProperty().get() < NEIGE) {
+        if(capteur.temperatureProperty().get() <= NEIGE) {
             file = "neige";
-        } else if (capteur.temperatureProperty().get() < NUAGE) {
+        } else if (capteur.temperatureProperty().get() <= NUAGE) {
             file = "nuage";
         } else {
             file = "soleil";
