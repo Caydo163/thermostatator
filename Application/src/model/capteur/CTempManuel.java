@@ -1,4 +1,4 @@
-package model;
+package model.capteur;
 
 public class CTempManuel extends CTemperature{
     public CTempManuel(String nom, double temperature) {

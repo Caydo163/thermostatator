@@ -1,14 +1,13 @@
 package view;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.Slider;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.CTemperature;
-import model.Capteur;
+import model.capteur.CTempAbstrait;
 import model.Visualisateur;
+import model.capteur.CapteurVirtuel;
 
 public class FenetreThermostat extends Visualisateur {
 
@@ -18,9 +17,12 @@ public class FenetreThermostat extends Visualisateur {
     @FXML
     private Slider slider;
 
+    @FXML
+    private ListView<CTempAbstrait> listView;
+
     //private CTemperature capteur;
 
-    public FenetreThermostat(CTemperature capteur) {
+    public FenetreThermostat(CTempAbstrait capteur) {
         super(capteur);
     }
 
@@ -36,8 +38,12 @@ public class FenetreThermostat extends Visualisateur {
     }
 
     public void initialize() {
-        slider.valueProperty().bindBidirectional(capteur.temperatureProperty());
-        valTemperature.textProperty().bind(capteur.temperatureProperty().asString());
+        if(capteur instanceof CapteurVirtuel) {
+            //listView.itemsProperty().bind();
+        } else {
+            slider.valueProperty().bindBidirectional(capteur.temperatureProperty());
+            valTemperature.textProperty().bind(capteur.temperatureProperty().asString());
+        }
     }
 
 /*

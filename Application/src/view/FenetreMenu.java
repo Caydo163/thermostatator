@@ -8,14 +8,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import model.*;
+import model.capteur.*;
 
 import java.io.IOException;
 
 public class FenetreMenu {
     //private CTemperature capteur = new CTempManuel("Capteur 1",0);
-    //private CTemperature capteur = new CTempAuto("Capteur 1", 5, new GenerateurAlea());
-    //private CTemperature capteur = new CTempAuto("Capteur 1", 5, new GenerateurIntervalle(15, 20));
-    private CTemperature capteur = new CTempAuto("Capteur", 5, new GenerateurVariation(5));
+    //private CTempAbstrait capteur = new CTempAuto("Capteur 3", 5, new GenerateurAlea());
+    //private CTempAbstrait capteur = new CTempAuto("Capteur 2", 5, new GenerateurIntervalle(15, 20));
+    //private CTempAbstrait capteur = new CTempAuto("Capteur 1", 5, new GenerateurVariation(5));
+    private CTempAbstrait capteurV = new CapteurVirtuel("Capteur virtuel", 5);
+    private CTempAbstrait capteur;
 
     @FXML
     private Button boutonSlider;
@@ -43,9 +46,18 @@ public class FenetreMenu {
         stage.show();
     }
 
+
     public void initialize() {
-        if(capteur instanceof CTempAuto) {
-            new TemperatureGenerateur((CTempAuto) capteur).start();
+        CTemperature capteur1 = new CTempManuel("Capteur 1", 5);
+        CTemperature capteur2 = new CTempManuel("Capteur 2", 5);
+        CTemperature capteur3 = new CTempManuel("Capteur 3", 10);
+        this.capteur = capteur1;
+        ((CapteurVirtuel)capteurV).ajouterCapteur(capteur1,1);
+        ((CapteurVirtuel)capteurV).ajouterCapteur(capteur2,1);
+        ((CapteurVirtuel)capteurV).ajouterCapteur(capteur3,2);
+        ((CapteurVirtuel)capteurV).majTemp();
+        if(capteurV instanceof CTempAuto) {
+            new Bipper((CTempAuto) capteurV).start();
         }
     }
 }

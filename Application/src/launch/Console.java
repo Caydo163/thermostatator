@@ -1,8 +1,7 @@
 package launch;
 
-import model.CTempManuel;
-import model.CTemperature;
-import model.Capteur;
+import model.capteur.CTempManuel;
+import model.capteur.CTemperature;
 import model.Visualisateur;
 import view.FenetreImage;
 import view.FenetreThermostat;

@@ -1,9 +1,11 @@
 package model;
 
-public abstract class Visualisateur  {
-    protected CTemperature capteur;
+import model.capteur.CTempAbstrait;
 
-    public Visualisateur(CTemperature capteur) {
+public abstract class Visualisateur  {
+    protected CTempAbstrait capteur;
+
+    public Visualisateur(CTempAbstrait capteur) {
         this.capteur = capteur;
         //this.capteur.add(this);
     }

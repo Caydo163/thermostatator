@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -10,7 +11,7 @@
 
 <BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <center>
-      <Slider orientation="VERTICAL" BorderPane.alignment="CENTER" fx:id="slider" onMouseClicked="#onChange" onMouseDragged="#onChange" showTickLabels="true" showTickMarks="true" min="-30" max="70" value="0">
+      <Slider fx:id="slider" max="70" min="-30" onMouseClicked="#onChange" onMouseDragged="#onChange" orientation="VERTICAL" showTickLabels="true" showTickMarks="true" value="0" BorderPane.alignment="CENTER">
          <BorderPane.margin>
             <Insets />
          </BorderPane.margin>
@@ -34,7 +35,7 @@
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Text>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="XXX" fx:id="valTemperature"/>
+                  <Text fx:id="valTemperature" strokeType="OUTSIDE" strokeWidth="0.0" text="XXX" />
                </children>
             </HBox>
          </children>
@@ -43,4 +44,7 @@
          </BorderPane.margin>
       </VBox>
    </top>
+   <left>
+      <ListView fx:id="listView" prefHeight="226.0" prefWidth="110.0" BorderPane.alignment="CENTER" />
+   </left>
 </BorderPane>

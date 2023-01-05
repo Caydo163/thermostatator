@@ -1,15 +1,12 @@
 package model;
 
 import javafx.application.Platform;
-import launch.Console;
+import model.capteur.CTempAuto;
 
-import java.util.Random;
-
-public class TemperatureGenerateur extends Thread{
+public class Bipper extends Thread{
 
     private CTempAuto capteur;
-
-    public TemperatureGenerateur(CTempAuto capteur) {
+    public Bipper(CTempAuto capteur) {
         this.capteur = capteur;
     }
     @Override

@@ -1,13 +1,11 @@
 package view;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import model.CTemperature;
+import model.capteur.CTempAbstrait;
 import model.Visualisateur;
 
 public class FenetreImage extends Visualisateur {
@@ -17,7 +15,7 @@ public class FenetreImage extends Visualisateur {
 
     @FXML
     private Button bouton;
-    public FenetreImage(CTemperature capteur) {
+    public FenetreImage(CTempAbstrait capteur) {
         super(capteur);
     }
 

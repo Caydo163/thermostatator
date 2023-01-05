@@ -1,4 +1,4 @@
-package model;
+package model.capteur;
 
 public abstract class Capteur {
     private static int idEnCours = 0;
