@@ -2,21 +2,29 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
-
+<?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.FenetreMenu">
+   <left>
+      <TreeView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" fx:id="treeView"/>
+   </left>
    <center>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" text="Thermostat" onAction="#clicBoutonSlider" fx:id="boutonSlider">
-               <HBox.margin>
-                  <Insets right="20.0"/>
-               </HBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" text="Image" onAction="#clicBoutonImage"/>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button fx:id="boutonSlider" mnemonicParsing="false" onAction="#clicBoutonSlider" text="Thermostat">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#clicBoutonImage" text="Image" />
+               </children>
+            </HBox>
          </children>
-      </HBox>
+      </VBox>
    </center>
 </BorderPane>

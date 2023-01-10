@@ -7,7 +7,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.capteur.CTempAbstrait;
 import model.Visualisateur;
-import model.capteur.CapteurVirtuel;
+import model.capteur.CTempVirtuel;
 
 public class FenetreThermostat extends Visualisateur {
 
@@ -38,7 +38,7 @@ public class FenetreThermostat extends Visualisateur {
     }
 
     public void initialize() {
-        if(capteur instanceof CapteurVirtuel) {
+        if(capteur instanceof CTempVirtuel) {
             //listView.itemsProperty().bind();
         } else {
             slider.valueProperty().bindBidirectional(capteur.temperatureProperty());

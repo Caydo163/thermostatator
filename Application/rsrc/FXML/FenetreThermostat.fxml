@@ -44,7 +44,4 @@
          </BorderPane.margin>
       </VBox>
    </top>
-   <left>
-      <ListView fx:id="listView" prefHeight="226.0" prefWidth="110.0" BorderPane.alignment="CENTER" />
-   </left>
 </BorderPane>

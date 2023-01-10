@@ -1,6 +1,8 @@
 package model.capteur;
 
-import javafx.beans.Observable;
+import javafx.beans.property.ListProperty;
+import javafx.beans.property.SimpleListProperty;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.ArrayList;
@@ -8,14 +10,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CapteurVirtuel extends CTempAbstrait {
-    public CapteurVirtuel(String nom, double temperature) {
+public class CTempVirtuel extends CTempAbstrait {
+    public CTempVirtuel(String nom, double temperature) {
         super(nom, temperature);
     }
 
     private Map<Integer, List<CTempAbstrait>> lesCapteurs = new HashMap<>();
 
-
+    private ObservableList<CTempAbstrait> listeCapteursObs = FXCollections.observableArrayList();
+    public ListProperty<CTempAbstrait> listeCapteurs = new SimpleListProperty<>(listeCapteursObs);
 
 
     public List<CTempAbstrait> getCapteurs() {
@@ -29,17 +32,21 @@ public class CapteurVirtuel extends CTempAbstrait {
     public void ajouterCapteur(CTempAbstrait capteur, Integer coeff) {
         if (lesCapteurs.containsKey(coeff)) {
             lesCapteurs.get(coeff).add(capteur);
+            listeCapteursObs.add(capteur);
         } else {
             lesCapteurs.put(coeff, new ArrayList<>());
             lesCapteurs.get(coeff).add(capteur);
+            listeCapteursObs.add(capteur);
         }
         capteur.temperatureProperty().addListener((__, ___, newValue) -> majTemp());
     }
 
     public void supprimerCapteur(CTempAbstrait capteur) {
+        listeCapteursObs.remove(capteur);
         for (Map.Entry<Integer, List<CTempAbstrait>> val : lesCapteurs.entrySet()) {
             if(val.getValue().contains(capteur)) {
                 val.getValue().remove(capteur);
+
             }
         }
     }
@@ -61,5 +68,12 @@ public class CapteurVirtuel extends CTempAbstrait {
         }
         return sommeT/sommeC;
     }
+
+
+    @Override
+    public ObservableList<CTempAbstrait> getLesCapteurs() throws NoSuchMethodException {
+        return listeCapteursObs;
+    }
+
 
 }

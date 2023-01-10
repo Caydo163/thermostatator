@@ -2,8 +2,9 @@ package model.capteur;
 
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.collections.ObservableList;
 
-public abstract class CTempAbstrait extends Capteur{
+public abstract class CTempAbstrait extends Capteur {
     public CTempAbstrait(String nom, double temperature) {
         super(nom);
         this.temperature.set(temperature);
@@ -15,4 +16,6 @@ public abstract class CTempAbstrait extends Capteur{
     }
     private void setTemperature(double temperature) {this.temperature.set(temperature);}
     public abstract double getTemperature() ;
+
+    public abstract ObservableList<CTempAbstrait> getLesCapteurs() throws NoSuchMethodException;
 }

@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TreeView;
 import javafx.stage.Stage;
 import model.*;
 import model.capteur.*;
@@ -17,11 +18,16 @@ public class FenetreMenu {
     //private CTempAbstrait capteur = new CTempAuto("Capteur 3", 5, new GenerateurAlea());
     //private CTempAbstrait capteur = new CTempAuto("Capteur 2", 5, new GenerateurIntervalle(15, 20));
     //private CTempAbstrait capteur = new CTempAuto("Capteur 1", 5, new GenerateurVariation(5));
-    private CTempAbstrait capteurV = new CapteurVirtuel("Capteur virtuel", 5);
+    private CTempAbstrait capteurV = new CTempVirtuel("Capteur virtuel", 5);
     private CTempAbstrait capteur;
 
     @FXML
     private Button boutonSlider;
+
+    @FXML
+    private TreeView<CTempAbstrait> treeView;
+    private CTempAbstrait arbre;
+
     @FXML
     public void clicBoutonSlider() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/FenetreThermostat.fxml"));
@@ -51,13 +57,23 @@ public class FenetreMenu {
         CTemperature capteur1 = new CTempManuel("Capteur 1", 5);
         CTemperature capteur2 = new CTempManuel("Capteur 2", 5);
         CTemperature capteur3 = new CTempManuel("Capteur 3", 10);
+        CTemperature capteur4 = new CTempManuel("Capteur 4", -9);
         this.capteur = capteur1;
-        ((CapteurVirtuel)capteurV).ajouterCapteur(capteur1,1);
-        ((CapteurVirtuel)capteurV).ajouterCapteur(capteur2,1);
-        ((CapteurVirtuel)capteurV).ajouterCapteur(capteur3,2);
-        ((CapteurVirtuel)capteurV).majTemp();
+        ((CTempVirtuel)capteurV).ajouterCapteur(capteur1,1);
+        ((CTempVirtuel)capteurV).ajouterCapteur(capteur2,1);
+        ((CTempVirtuel)capteurV).ajouterCapteur(capteur3,2);
+        ((CTempVirtuel)capteurV).majTemp();
         if(capteurV instanceof CTempAuto) {
             new Bipper((CTempAuto) capteurV).start();
         }
+
+        arbre = capteurV;
+        try {
+            ((CTempVirtuel)capteurV).getLesCapteurs().forEach(System.out::println);
+        } catch (NoSuchMethodException e) {
+            throw new RuntimeException(e);
+        }
+        var root = FabriqueCTempAbstraitVue.from(arbre);
+        treeView.setRoot(root);
     }
 }
