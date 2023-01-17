@@ -3,18 +3,14 @@ package view;
 import javafx.collections.ListChangeListener;
 import model.capteur.CTempAbstrait;
 import model.capteur.CTempAuto;
+import model.capteur.CTempManuel;
 import model.capteur.CTempVirtuel;
+
+import java.io.PrintStream;
 
 public class FabriqueCTempAbstraitVue {
     public static CTempAbstraitVue from(CTempAbstrait root) {
-        CTempAbstraitVue retour;
-        if(root instanceof CTempVirtuel) {
-            retour = new CTempVirtuelVue(root);
-        } else { if(root instanceof CTempAuto) {
-            retour = new CTempAutoVue(root);
-        } else {
-            retour = new CTempAbstraitVue(root);
-        }}
+        CTempAbstraitVue retour = new CTempAbstraitVue(root);
 
         chuter(root, retour);
 
@@ -41,5 +37,6 @@ public class FabriqueCTempAbstraitVue {
                 retour.getChildren().add(FabriqueCTempAbstraitVue.from(e));
             });
         } catch (NoSuchMethodException e) {}
+
     }
 }

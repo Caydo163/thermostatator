@@ -18,4 +18,9 @@ public abstract class CTempAbstrait extends Capteur {
     public abstract double getTemperature() ;
 
     public abstract ObservableList<CTempAbstrait> getLesCapteurs() throws NoSuchMethodException;
+
+    @Override
+    public String toString() {
+        return String.format("%s (%.2f)", getNom(), getTemperature());
+    }
 }

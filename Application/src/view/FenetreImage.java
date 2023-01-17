@@ -4,6 +4,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.capteur.CTempAbstrait;
 import model.Visualisateur;
@@ -12,6 +13,9 @@ public class FenetreImage extends Visualisateur {
 
     @FXML
     private ImageView image;
+
+    @FXML
+    private Text nomCapteur;
 
     @FXML
     private Button bouton;
@@ -50,6 +54,7 @@ public class FenetreImage extends Visualisateur {
     }
 
     public void initialize() {
+        nomCapteur.textProperty().bind(capteur.nomProperty());
         changeImage();
         capteur.temperatureProperty().addListener((__, ___, newValue) -> changeImage());
     }

@@ -2,7 +2,6 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
@@ -30,12 +29,22 @@
             <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Thermostat" />
             <HBox prefHeight="100.0" prefWidth="200.0">
                <children>
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Capteur :">
+                     <HBox.margin>
+                        <Insets right="5.0" />
+                     </HBox.margin>
+                  </Text>
+                  <Text fx:id="nomCapteur" strokeType="OUTSIDE" strokeWidth="0.0" />
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Température :">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
                   </Text>
-                  <Text fx:id="valTemperature" strokeType="OUTSIDE" strokeWidth="0.0" text="XXX" />
+                  <Text fx:id="valTemperature" strokeType="OUTSIDE" strokeWidth="0.0" />
                </children>
             </HBox>
          </children>

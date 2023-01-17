@@ -15,6 +15,9 @@ public class FenetreThermostat extends Visualisateur {
     private Text valTemperature;
 
     @FXML
+    private Text nomCapteur;
+
+    @FXML
     private Slider slider;
 
     @FXML
@@ -38,12 +41,9 @@ public class FenetreThermostat extends Visualisateur {
     }
 
     public void initialize() {
-        if(capteur instanceof CTempVirtuel) {
-            //listView.itemsProperty().bind();
-        } else {
-            slider.valueProperty().bindBidirectional(capteur.temperatureProperty());
-            valTemperature.textProperty().bind(capteur.temperatureProperty().asString());
-        }
+        slider.valueProperty().bindBidirectional(capteur.temperatureProperty());
+        valTemperature.textProperty().bind(capteur.temperatureProperty().asString());
+        nomCapteur.textProperty().bind(capteur.nomProperty());
     }
 
 /*

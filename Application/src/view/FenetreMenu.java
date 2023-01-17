@@ -1,37 +1,42 @@
 package view;
 
+import data.Stub;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import model.*;
 import model.capteur.*;
 
 import java.io.IOException;
 
 public class FenetreMenu {
-    //private CTemperature capteur = new CTempManuel("Capteur 1",0);
-    //private CTempAbstrait capteur = new CTempAuto("Capteur 3", 5, new GenerateurAlea());
-    //private CTempAbstrait capteur = new CTempAuto("Capteur 2", 5, new GenerateurIntervalle(15, 20));
-    //private CTempAbstrait capteur = new CTempAuto("Capteur 1", 5, new GenerateurVariation(5));
-    private CTempAbstrait capteurV = new CTempVirtuel("Capteur virtuel", 5);
     private CTempAbstrait capteur;
 
     @FXML
     private Button boutonSlider;
 
     @FXML
+    private Text nom;
+
+    @FXML
+    private Text temperature;
+
+    @FXML
+    private Text id;
+    @FXML
     private TreeView<CTempAbstrait> treeView;
-    private CTempAbstrait arbre;
 
     @FXML
     public void clicBoutonSlider() throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/FenetreThermostat.fxml"));
-        loader.setController(new FenetreThermostat(capteur));
+        loader.setController(new FenetreThermostat(treeView.getSelectionModel().getSelectedItem().getValue()));
         Parent root = loader.load();
         Stage stage = new Stage();
         stage.initOwner(boutonSlider.getScene().getWindow());
@@ -43,7 +48,7 @@ public class FenetreMenu {
     @FXML
     public void clicBoutonImage(ActionEvent e) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FXML/FenetreImage.fxml"));
-        loader.setController(new FenetreImage(capteur));
+        loader.setController(new FenetreImage(treeView.getSelectionModel().getSelectedItem().getValue()));
         Parent root = loader.load();
         Stage stage = new Stage();
         stage.initOwner(((Button)e.getSource()).getScene().getWindow());
@@ -52,28 +57,25 @@ public class FenetreMenu {
         stage.show();
     }
 
+    @FXML
+    public void clicBoutonFermer() {
+        Stage stage = (Stage) nom.getScene().getWindow();
+        stage.close();
+    }
+
+
+    private void majInfoCapteur() {
+        nom.textProperty().setValue(treeView.getSelectionModel().getSelectedItem().getValue().getNom());
+        temperature.textProperty().setValue(String.valueOf(treeView.getSelectionModel().getSelectedItem().getValue().getTemperature()));
+        id.textProperty().setValue(String.valueOf(treeView.getSelectionModel().getSelectedItem().getValue().getId()));
+    }
+
 
     public void initialize() {
-        CTemperature capteur1 = new CTempManuel("Capteur 1", 5);
-        CTemperature capteur2 = new CTempManuel("Capteur 2", 5);
-        CTemperature capteur3 = new CTempManuel("Capteur 3", 10);
-        CTemperature capteur4 = new CTempManuel("Capteur 4", -9);
-        this.capteur = capteur1;
-        ((CTempVirtuel)capteurV).ajouterCapteur(capteur1,1);
-        ((CTempVirtuel)capteurV).ajouterCapteur(capteur2,1);
-        ((CTempVirtuel)capteurV).ajouterCapteur(capteur3,2);
-        ((CTempVirtuel)capteurV).majTemp();
-        if(capteurV instanceof CTempAuto) {
-            new Bipper((CTempAuto) capteurV).start();
-        }
-
-        arbre = capteurV;
-        try {
-            ((CTempVirtuel)capteurV).getLesCapteurs().forEach(System.out::println);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
-        var root = FabriqueCTempAbstraitVue.from(arbre);
+        treeView.getSelectionModel().getSelectedItems().addListener((ListChangeListener<TreeItem<CTempAbstrait>>) c -> majInfoCapteur());
+        capteur = Stub.loadTreeView();
+        treeView.setCellFactory(__ -> new MaCellule());
+        var root = FabriqueCTempAbstraitVue.from(capteur);
         treeView.setRoot(root);
     }
 }

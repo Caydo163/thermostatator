@@ -9,7 +9,9 @@ public class CTempAuto extends CTemperature {
     }
     private StrategieGenerateur stratGen;
 
-    public void compute() {
+    public void compute(
+
+    ) {
         temperatureProperty().setValue(stratGen.compute(temperatureProperty().getValue()));
     }
 }

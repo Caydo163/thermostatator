@@ -15,11 +15,12 @@ public class CTempVirtuelVue extends CTempAbstraitVue {
 
     @Override
     public boolean isLeaf() {
-        return false;
+        return true;
     }
 
     @Override
     public ObservableList<TreeItem<CTempAbstrait>> getChildren() {
+        System.out.println(lesCapteurs.stream().count());
         return lesCapteurs;
     }
 }

@@ -4,14 +4,14 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import model.capteur.CTempAbstrait;
 
-public class CTempAutoVue extends CTempAbstraitVue {
-    public CTempAutoVue(CTempAbstrait capteur) {
+public class CTempManuelVue extends CTempAbstraitVue {
+    public CTempManuelVue(CTempAbstrait capteur) {
         super(capteur);
     }
 
     @Override
     public boolean isLeaf() {
-        return false;
+        return true;
     }
 
     @Override
