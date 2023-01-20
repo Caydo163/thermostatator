@@ -5,8 +5,7 @@ import model.generateur.StrategieGenerateur;
 
 public class CTempAuto extends CTemperature {
     public CTempAuto(String nom, double temperature, StrategieGenerateur strat) {
-        super(nom, temperature);
-        stratGen = strat;
+        super(nom, temperature, strat);
         bipper = new Bipper(this, 1000);
     }
 

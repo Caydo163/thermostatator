@@ -41,7 +41,7 @@ public class FenetreMenu {
     private ComboBox<String> comboBox;
 
     @FXML
-    private Spinner spinner;
+    private Spinner<Integer> spinner;
 
     @FXML
     private ToggleButton toggleButton;
@@ -81,42 +81,53 @@ public class FenetreMenu {
         if (capteur != null) {
             nom.textProperty().unbindBidirectional(capteur.nomProperty());
             temperature.textProperty().unbind();
-            if (capteur instanceof CTempAuto) {
-                toggleButton.selectedProperty().unbindBidirectional(((CTempAuto) capteur).getBipper().stopProperty());
+            if (capteur instanceof CTemperature && ((CTemperature) capteur).getStratGen() != null) {
+                toggleButton.selectedProperty().unbindBidirectional(((CTemperature) capteur).getBipper().stopProperty());
             }
         }
         capteur = treeView.getSelectionModel().getSelectedItem().getValue();
         nom.textProperty().bindBidirectional(capteur.nomProperty());
         temperature.textProperty().bind(capteur.temperatureProperty().asString());
         id.textProperty().setValue(String.valueOf(capteur.getId()));
+        
 
-        if (capteur instanceof CTempAuto) {
+
+        if (capteur instanceof CTemperature && ((CTemperature) capteur).getStratGen() != null) {
             toggleButton.setVisible(true);
-            if(((CTempAuto) capteur).getBipper().stopProperty().get()) {
+            if(((CTemperature) capteur).getBipper().stopProperty().get()) {
                 toggleButton.setText("Arrêter la génération automatique");
             } else {
                 toggleButton.setText("Démarrer la génération automatique");
             }
             spinner.setVisible(true);
-            toggleButton.selectedProperty().bindBidirectional(((CTempAuto) capteur).getBipper().stopProperty());
+            toggleButton.selectedProperty().bindBidirectional(((CTemperature) capteur).getBipper().stopProperty());
         } else {
             toggleButton.setVisible(false);
             spinner.setVisible(false);
+        }
+
+        if(capteur instanceof CTempVirtuel) {
+
+        } else {
+
         }
     }
 
     private void changementStrat(String strat) {
         var capteurRecup = treeView.getSelectionModel().getSelectedItem().getValue();
-        if (capteurRecup instanceof CTempAuto) {
+        if (capteurRecup instanceof CTemperature) {
             switch(strat) {
                 case "Aléatoire":
-                    ((CTempAuto) capteurRecup).setStratGen(new GenerateurAlea());
+                    ((CTemperature) capteurRecup).setStratGen(new GenerateurAlea());
                     break;
                 case "Variation":
-                    ((CTempAuto) capteurRecup).setStratGen(new GenerateurVariation(5));
+                    ((CTemperature) capteurRecup).setStratGen(new GenerateurVariation(5));
                     break;
                 case "Intervalle":
-                    ((CTempAuto) capteurRecup).setStratGen(new GenerateurIntervalle(-10,30));
+                    ((CTemperature) capteurRecup).setStratGen(new GenerateurIntervalle(-10,30));
+                    break;
+                case "Manuel":
+                    ((CTemperature) capteurRecup).setStratGen(null);
                     break;
             }
         }
@@ -128,6 +139,7 @@ public class FenetreMenu {
         listeStratGen.add("Aléatoire");
         listeStratGen.add("Intervalle");
         listeStratGen.add("Variation");
+        listeStratGen.add("Manuel");
 
         comboBox.setItems(listeStratGen);
         treeView.setCellFactory(__ -> new MaCellule());
@@ -136,5 +148,7 @@ public class FenetreMenu {
         comboBox.setOnAction(actionEvent -> changementStrat(comboBox.getValue()));
 
         treeView.setRoot(root);
+        treeView.setShowRoot(false);
+        //treeView.getSelectionModel().selectFirst();
     }
 }

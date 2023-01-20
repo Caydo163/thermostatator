@@ -3,10 +3,11 @@ package model;
 import javafx.application.Platform;
 import javafx.beans.property.*;
 import model.capteur.CTempAuto;
+import model.capteur.CTemperature;
 
 public class Bipper extends Thread{
 
-    private CTempAuto capteur;
+    private CTemperature capteur;
     protected IntegerProperty tick = new SimpleIntegerProperty();
     public IntegerProperty tickProperty() {
         return tick;
@@ -27,21 +28,23 @@ public class Bipper extends Thread{
     public boolean getStop() { return stop.get();}
 
 
-    public Bipper(CTempAuto capteur, int tick) {
+    public Bipper(CTemperature capteur, int tick) {
         this.capteur = capteur;
         setTick(tick);
         setStop(true);
     }
     @Override
     public void run() {
-        while(getStop()) {
-            try {
-                Thread.sleep(getTick());
-                Platform.runLater(() -> {
-                    capteur.compute();
-                });
-            } catch (InterruptedException e) {
-                break;
+        if(capteur.getStratGen() != null) {
+            while(getStop()) {
+                try {
+                    Thread.sleep(getTick());
+                    Platform.runLater(() -> {
+                        capteur.compute();
+                    });
+                } catch (InterruptedException e) {
+                    break;
+                }
             }
         }
     }
