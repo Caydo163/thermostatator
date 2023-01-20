@@ -1,18 +1,22 @@
 package view;
 
 import data.Stub;
+import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TreeItem;
-import javafx.scene.control.TreeView;
+import javafx.scene.control.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.capteur.*;
+import model.generateur.GenerateurAlea;
+import model.generateur.GenerateurIntervalle;
+import model.generateur.GenerateurVariation;
+import view.treeView.FabriqueCTempAbstraitVue;
 
 import java.io.IOException;
 
@@ -23,7 +27,7 @@ public class FenetreMenu {
     private Button boutonSlider;
 
     @FXML
-    private Text nom;
+    private TextField nom;
 
     @FXML
     private Text temperature;
@@ -32,6 +36,15 @@ public class FenetreMenu {
     private Text id;
     @FXML
     private TreeView<CTempAbstrait> treeView;
+
+    @FXML
+    private ComboBox<String> comboBox;
+
+    @FXML
+    private Spinner spinner;
+
+    @FXML
+    private ToggleButton toggleButton;
 
     @FXML
     public void clicBoutonSlider() throws IOException {
@@ -65,17 +78,63 @@ public class FenetreMenu {
 
 
     private void majInfoCapteur() {
-        nom.textProperty().setValue(treeView.getSelectionModel().getSelectedItem().getValue().getNom());
-        temperature.textProperty().setValue(String.valueOf(treeView.getSelectionModel().getSelectedItem().getValue().getTemperature()));
-        id.textProperty().setValue(String.valueOf(treeView.getSelectionModel().getSelectedItem().getValue().getId()));
+        if (capteur != null) {
+            nom.textProperty().unbindBidirectional(capteur.nomProperty());
+            temperature.textProperty().unbind();
+            if (capteur instanceof CTempAuto) {
+                toggleButton.selectedProperty().unbindBidirectional(((CTempAuto) capteur).getBipper().stopProperty());
+            }
+        }
+        capteur = treeView.getSelectionModel().getSelectedItem().getValue();
+        nom.textProperty().bindBidirectional(capteur.nomProperty());
+        temperature.textProperty().bind(capteur.temperatureProperty().asString());
+        id.textProperty().setValue(String.valueOf(capteur.getId()));
+
+        if (capteur instanceof CTempAuto) {
+            toggleButton.setVisible(true);
+            if(((CTempAuto) capteur).getBipper().stopProperty().get()) {
+                toggleButton.setText("Arrêter la génération automatique");
+            } else {
+                toggleButton.setText("Démarrer la génération automatique");
+            }
+            spinner.setVisible(true);
+            toggleButton.selectedProperty().bindBidirectional(((CTempAuto) capteur).getBipper().stopProperty());
+        } else {
+            toggleButton.setVisible(false);
+            spinner.setVisible(false);
+        }
     }
 
+    private void changementStrat(String strat) {
+        var capteurRecup = treeView.getSelectionModel().getSelectedItem().getValue();
+        if (capteurRecup instanceof CTempAuto) {
+            switch(strat) {
+                case "Aléatoire":
+                    ((CTempAuto) capteurRecup).setStratGen(new GenerateurAlea());
+                    break;
+                case "Variation":
+                    ((CTempAuto) capteurRecup).setStratGen(new GenerateurVariation(5));
+                    break;
+                case "Intervalle":
+                    ((CTempAuto) capteurRecup).setStratGen(new GenerateurIntervalle(-10,30));
+                    break;
+            }
+        }
+
+    }
 
     public void initialize() {
-        treeView.getSelectionModel().getSelectedItems().addListener((ListChangeListener<TreeItem<CTempAbstrait>>) c -> majInfoCapteur());
-        capteur = Stub.loadTreeView();
+        ObservableList<String> listeStratGen = FXCollections.observableArrayList();
+        listeStratGen.add("Aléatoire");
+        listeStratGen.add("Intervalle");
+        listeStratGen.add("Variation");
+
+        comboBox.setItems(listeStratGen);
         treeView.setCellFactory(__ -> new MaCellule());
-        var root = FabriqueCTempAbstraitVue.from(capteur);
+        var root = FabriqueCTempAbstraitVue.from(Stub.loadTreeView());
+        treeView.getSelectionModel().getSelectedItems().addListener((ListChangeListener<TreeItem<CTempAbstrait>>) c -> majInfoCapteur());
+        comboBox.setOnAction(actionEvent -> changementStrat(comboBox.getValue()));
+
         treeView.setRoot(root);
     }
 }

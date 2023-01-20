@@ -1,12 +1,7 @@
-package view;
+package view.treeView;
 
 import javafx.collections.ListChangeListener;
 import model.capteur.CTempAbstrait;
-import model.capteur.CTempAuto;
-import model.capteur.CTempManuel;
-import model.capteur.CTempVirtuel;
-
-import java.io.PrintStream;
 
 public class FabriqueCTempAbstraitVue {
     public static CTempAbstraitVue from(CTempAbstrait root) {

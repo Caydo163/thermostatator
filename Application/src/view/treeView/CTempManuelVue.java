@@ -1,4 +1,4 @@
-package view;
+package view.treeView;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
