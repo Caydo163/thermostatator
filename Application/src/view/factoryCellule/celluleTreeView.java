@@ -1,19 +1,16 @@
-package view;
+package view.factoryCellule;
 
-import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
 import javafx.scene.control.TreeCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import model.capteur.CTempAbstrait;
 import model.capteur.CTempVirtuel;
-import model.capteur.Capteur;
 
-public class MaCellule extends TreeCell {
+public class celluleTreeView extends TreeCell {
     @FXML
     private ImageView image;
     @FXML

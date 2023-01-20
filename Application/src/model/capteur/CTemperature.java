@@ -28,7 +28,7 @@ public class CTemperature extends CTempAbstrait {
     public void setStratGen(StrategieGenerateur strat) {
         stratGen = strat;
         if(strat != null) {
-            this.bipper = new Bipper(this, 1000);
+            this.bipper = new Bipper(this, 1);
         }
     }
 

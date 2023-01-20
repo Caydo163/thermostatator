@@ -56,7 +56,7 @@
             <ToggleButton fx:id="toggleButton" />
             <HBox prefWidth="200.0">
                <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tick génération :">
+                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tick génération (en seconde) :">
                      <HBox.margin>
                         <Insets right="5.0" />
                      </HBox.margin>
@@ -69,9 +69,9 @@
             </HBox>
             <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0">
               <columns>
-                <TableColumn prefWidth="75.0" text="Type" />
-                <TableColumn prefWidth="75.0" text="Coeff" />
-                  <TableColumn prefWidth="75.0" text="Nom" />
+                <TableColumn fx:id="tableType" prefWidth="75.0" text="Type" />
+                <TableColumn fx:id="tableCoeff" prefWidth="75.0" text="Coeff" />
+                  <TableColumn fx:id="tableId" prefWidth="75.0" text="Id" />
               </columns>
             </TableView>
          </children>

@@ -1,6 +1,7 @@
 package view;
 
 import data.Stub;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -10,12 +11,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.capteur.*;
 import model.generateur.GenerateurAlea;
 import model.generateur.GenerateurIntervalle;
 import model.generateur.GenerateurVariation;
+import view.factoryCellule.celluleTableCoeff;
+import view.factoryCellule.celluleTableType;
+import view.factoryCellule.celluleTreeView;
 import view.treeView.FabriqueCTempAbstraitVue;
 
 import java.io.IOException;
@@ -45,6 +50,18 @@ public class FenetreMenu {
 
     @FXML
     private ToggleButton toggleButton;
+
+    @FXML
+    private TableView<CTempAbstrait> tableView;
+    @FXML
+    private TableColumn<CTempAbstrait, Integer> tableId;
+
+    @FXML
+    private TableColumn<CTempAbstrait, Integer> tableCoeff;
+
+    @FXML
+    private TableColumn<CTempAbstrait, String> tableType;
+
 
     @FXML
     public void clicBoutonSlider() throws IOException {
@@ -89,7 +106,7 @@ public class FenetreMenu {
         nom.textProperty().bindBidirectional(capteur.nomProperty());
         temperature.textProperty().bind(capteur.temperatureProperty().asString());
         id.textProperty().setValue(String.valueOf(capteur.getId()));
-        
+
 
 
         if (capteur instanceof CTemperature && ((CTemperature) capteur).getStratGen() != null) {
@@ -100,6 +117,8 @@ public class FenetreMenu {
                 toggleButton.setText("Démarrer la génération automatique");
             }
             spinner.setVisible(true);
+            spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,60,1));
+            spinner.getValueFactory().valueProperty().bindBidirectional(((CTemperature) capteur).getBipper().tickProperty().asObject());
             toggleButton.selectedProperty().bindBidirectional(((CTemperature) capteur).getBipper().stopProperty());
         } else {
             toggleButton.setVisible(false);
@@ -107,9 +126,10 @@ public class FenetreMenu {
         }
 
         if(capteur instanceof CTempVirtuel) {
-
+            //tableView.setItems(((CTempVirtuel)capteur).getCapteurs());
+            tableView.setVisible(true);
         } else {
-
+            tableView.setVisible(false);
         }
     }
 
@@ -142,7 +162,11 @@ public class FenetreMenu {
         listeStratGen.add("Manuel");
 
         comboBox.setItems(listeStratGen);
-        treeView.setCellFactory(__ -> new MaCellule());
+        treeView.setCellFactory(__ -> new celluleTreeView());
+
+
+        tableType.setCellFactory(__ -> new celluleTableType());
+        tableCoeff.setCellFactory(__ -> new celluleTableCoeff());
         var root = FabriqueCTempAbstraitVue.from(Stub.loadTreeView());
         treeView.getSelectionModel().getSelectedItems().addListener((ListChangeListener<TreeItem<CTempAbstrait>>) c -> majInfoCapteur());
         comboBox.setOnAction(actionEvent -> changementStrat(comboBox.getValue()));

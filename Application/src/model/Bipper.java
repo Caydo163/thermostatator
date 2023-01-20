@@ -38,7 +38,7 @@ public class Bipper extends Thread{
         if(capteur.getStratGen() != null) {
             while(getStop()) {
                 try {
-                    Thread.sleep(getTick());
+                    Thread.sleep(getTick()*1000);
                     Platform.runLater(() -> {
                         capteur.compute();
                     });
