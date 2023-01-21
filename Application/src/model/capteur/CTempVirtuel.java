@@ -23,6 +23,13 @@ public class CTempVirtuel extends CTempAbstrait {
     private ObservableList<CTempAbstrait> listeCapteursObs = FXCollections.observableArrayList();
     public ListProperty<CTempAbstrait> listeCapteurs = new SimpleListProperty<>(listeCapteursObs);
 
+    public ObservableList<CTempAbstrait> getListeCapteurs() {
+        return listeCapteurs.get();
+    }
+
+    public ObservableList<Integer> getListeCoeff() {
+        return listeCoeff.get();
+    }
 
     public List<CTempAbstrait> getCapteurs() {
         /*

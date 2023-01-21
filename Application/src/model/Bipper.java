@@ -2,7 +2,6 @@ package model;
 
 import javafx.application.Platform;
 import javafx.beans.property.*;
-import model.capteur.CTempAuto;
 import model.capteur.CTemperature;
 
 public class Bipper extends Thread{
@@ -38,7 +37,7 @@ public class Bipper extends Thread{
         if(capteur.getStratGen() != null) {
             while(getStop()) {
                 try {
-                    Thread.sleep(getTick()*1000);
+                    Thread.sleep(tickProperty().get()*1000);
                     Platform.runLater(() -> {
                         capteur.compute();
                     });

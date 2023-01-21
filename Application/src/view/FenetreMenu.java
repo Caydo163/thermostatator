@@ -1,7 +1,6 @@
 package view;
 
 import data.Stub;
-import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -19,6 +18,7 @@ import model.generateur.GenerateurAlea;
 import model.generateur.GenerateurIntervalle;
 import model.generateur.GenerateurVariation;
 import view.factoryCellule.celluleTableCoeff;
+import view.factoryCellule.celluleTableId;
 import view.factoryCellule.celluleTableType;
 import view.factoryCellule.celluleTreeView;
 import view.treeView.FabriqueCTempAbstraitVue;
@@ -54,13 +54,16 @@ public class FenetreMenu {
     @FXML
     private TableView<CTempAbstrait> tableView;
     @FXML
-    private TableColumn<CTempAbstrait, Integer> tableId;
+    private TableColumn<CTempAbstrait,Integer> tableId;
 
     @FXML
-    private TableColumn<CTempAbstrait, Integer> tableCoeff;
+    private TableColumn<ObservableList, ObservableList<Integer>> tableCoeff;
 
     @FXML
-    private TableColumn<CTempAbstrait, String> tableType;
+    private TableColumn<ObservableList, ObservableList<CTempAbstrait>> tableType;
+
+    private ObservableList<ObservableList> listeTableView = FXCollections.observableArrayList();
+
 
 
     @FXML
@@ -100,6 +103,7 @@ public class FenetreMenu {
             temperature.textProperty().unbind();
             if (capteur instanceof CTemperature && ((CTemperature) capteur).getStratGen() != null) {
                 toggleButton.selectedProperty().unbindBidirectional(((CTemperature) capteur).getBipper().stopProperty());
+                spinner.getValueFactory().valueProperty().unbindBidirectional(((CTemperature) capteur).getBipper().tickProperty().asObject());
             }
         }
         capteur = treeView.getSelectionModel().getSelectedItem().getValue();
@@ -117,7 +121,7 @@ public class FenetreMenu {
                 toggleButton.setText("Démarrer la génération automatique");
             }
             spinner.setVisible(true);
-            spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,60,1));
+
             spinner.getValueFactory().valueProperty().bindBidirectional(((CTemperature) capteur).getBipper().tickProperty().asObject());
             toggleButton.selectedProperty().bindBidirectional(((CTemperature) capteur).getBipper().stopProperty());
         } else {
@@ -126,9 +130,16 @@ public class FenetreMenu {
         }
 
         if(capteur instanceof CTempVirtuel) {
-            //tableView.setItems(((CTempVirtuel)capteur).getCapteurs());
+            /*listeTableView.addAll(((CTempVirtuel)capteur).getListeCapteurs(), ((CTempVirtuel)capteur).getListeCoeff());
+            tableId.setCellValueFactory(new PropertyValueFactory<CTempAbstrait, Integer>("id"));
+            ObservableList<CTempAbstrait> a = FXCollections.observableArrayList();
+            a.addAll(((CTempVirtuel)capteur).getListeCapteurs());
+            tableView.setItems(a);*/
+
             tableView.setVisible(true);
         } else {
+            var strat = (((CTemperature) capteur).getStratGen() != null) ? ((CTemperature) capteur).getStratGen().toString() : "Manuel";
+            comboBox.getSelectionModel().select(strat);
             tableView.setVisible(false);
         }
     }
@@ -150,6 +161,7 @@ public class FenetreMenu {
                     ((CTemperature) capteurRecup).setStratGen(null);
                     break;
             }
+            majInfoCapteur();
         }
 
     }
@@ -165,12 +177,13 @@ public class FenetreMenu {
         treeView.setCellFactory(__ -> new celluleTreeView());
 
 
+        tableId.setCellFactory(__ -> new celluleTableId());
         tableType.setCellFactory(__ -> new celluleTableType());
         tableCoeff.setCellFactory(__ -> new celluleTableCoeff());
         var root = FabriqueCTempAbstraitVue.from(Stub.loadTreeView());
         treeView.getSelectionModel().getSelectedItems().addListener((ListChangeListener<TreeItem<CTempAbstrait>>) c -> majInfoCapteur());
         comboBox.setOnAction(actionEvent -> changementStrat(comboBox.getValue()));
-
+        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,60,1));
         treeView.setRoot(root);
         treeView.setShowRoot(false);
         //treeView.getSelectionModel().selectFirst();

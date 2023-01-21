@@ -19,4 +19,9 @@ public class GenerateurIntervalle implements StrategieGenerateur {
         //temperatureProperty().set(value);
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "Intervalle";
+    }
 }

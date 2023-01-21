@@ -10,4 +10,9 @@ public class GenerateurAlea implements StrategieGenerateur {
         //temperatureProperty().set(value);
         return value;
     }
+
+    @Override
+    public String toString() {
+        return "Aléatoire";
+    }
 }

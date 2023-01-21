@@ -3,20 +3,19 @@ package view.factoryCellule;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import model.capteur.CTempVirtuel;
+import javafx.scene.text.Text;
+import model.capteur.Capteur;
 
-public class celluleTableCoeff extends TableCell {
+public class celluleTableId extends TableCell {
     @FXML
-    TextField textField;
+    Text text;
     @Override
     protected void updateItem(Object o, boolean empty) {
         super.updateItem(o, empty);
         if(!empty) {
-            textField = new TextField();
-            textField.setText("o.toString()");
-            setGraphic(textField);
+            text = new Text();
+            text.setText(String.valueOf(o));
+            setGraphic(text);
         } else {
             setGraphic(null);
         }
