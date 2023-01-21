@@ -4,15 +4,12 @@ import javafx.application.Platform;
 import javafx.beans.property.*;
 import model.capteur.CTemperature;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Bipper extends Thread{
 
-    private CTemperature capteur;
-    private IntegerProperty tick = new SimpleIntegerProperty();
-    public IntegerProperty tickProperty() {
-        return tick;
-    }
-    private void setTick(int tick) {this.tick.set(tick);}
-    public int getTick() { return tick.get();}
+    private List<CTemperature> capteurs = new ArrayList<>();
 
     private BooleanProperty stop = new SimpleBooleanProperty();
     public BooleanProperty stopProperty() {
@@ -26,24 +23,27 @@ public class Bipper extends Thread{
     }
     public boolean getStop() { return stop.get();}
 
+    public void addCapteur(CTemperature c) {
+        capteurs.add(c);
+    }
 
-    public Bipper(CTemperature capteur, int tick) {
-        this.capteur = capteur;
-        setTick(tick);
+    public void removeCapteur(CTemperature c) {
+        capteurs.remove(c);
+    }
+
+    public Bipper() {
         setStop(true);
     }
     @Override
     public void run() {
-        if(capteur.getStratGen() != null) {
-            while(getStop()) {
-                try {
-                    Thread.sleep(tickProperty().get()*1000);
-                    Platform.runLater(() -> {
-                        capteur.compute();
-                    });
-                } catch (InterruptedException e) {
-                    break;
-                }
+        while(getStop()) {
+            try {
+                Thread.sleep(1000);
+                Platform.runLater(() -> {
+                    capteurs.forEach(e -> e.compute());
+                });
+            } catch (InterruptedException e) {
+                break;
             }
         }
     }

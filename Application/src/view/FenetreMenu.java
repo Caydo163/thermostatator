@@ -19,6 +19,7 @@ import model.generateur.GenerateurAlea;
 import model.generateur.GenerateurCPU;
 import model.generateur.GenerateurIntervalle;
 import model.generateur.GenerateurVariation;
+import model.util.Bipper;
 import view.factoryCellule.celluleTableCoeff;
 import view.factoryCellule.celluleTableId;
 import view.factoryCellule.celluleTableType;
@@ -107,9 +108,9 @@ public class FenetreMenu {
         if (capteur != null) {
             nom.textProperty().unbindBidirectional(capteur.nomProperty());
             temperature.textProperty().unbind();
-            if (capteur instanceof CTemperature && ((CTemperature) capteur).getStratGen() != null) {
-                toggleButton.selectedProperty().unbindBidirectional(((CTemperature) capteur).getBipper().stopProperty());
-                spinner.getValueFactory().valueProperty().unbindBidirectional(((CTemperature) capteur).getBipper().tickProperty().asObject());
+            if (capteur instanceof CTemperature) {
+                toggleButton.selectedProperty().unbindBidirectional(((CTemperature) capteur).activateProperty());
+                spinner.getValueFactory().valueProperty().unbindBidirectional(((CTemperature) capteur).tickProperty().asObject());
             }
         }
         capteur = treeView.getSelectionModel().getSelectedItem().getValue();
@@ -121,14 +122,9 @@ public class FenetreMenu {
         if(capteur instanceof CTemperature) {
             hbox_strategie.setVisible(true);
             if(((CTemperature) capteur).getStratGen() != null) {
-                if(((CTemperature) capteur).getBipper().stopProperty().get()) {
-                    toggleButton.setText("Arrêter la génération automatique");
-                } else {
-                    toggleButton.setText("Démarrer la génération automatique");
-                }
-
-                spinner.getValueFactory().valueProperty().bindBidirectional(((CTemperature) capteur).getBipper().tickProperty().asObject());
-                toggleButton.selectedProperty().bindBidirectional(((CTemperature) capteur).getBipper().stopProperty());
+                spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,60,1));
+                spinner.getValueFactory().valueProperty().bindBidirectional(((CTemperature) capteur).tickProperty().asObject());
+                toggleButton.selectedProperty().bindBidirectional(((CTemperature) capteur).activateProperty());
                 hbox_tick.setVisible(true);
                 toggleButton.setVisible(true);
             } else {
@@ -197,12 +193,15 @@ public class FenetreMenu {
         tableId.setCellFactory(__ -> new celluleTableId());
         tableType.setCellFactory(__ -> new celluleTableType());
         tableCoeff.setCellFactory(__ -> new celluleTableCoeff());
-        var root = FabriqueCTempAbstraitVue.from(Stub.loadTreeView());
+        var bipper = new Bipper();
+        var root = FabriqueCTempAbstraitVue.from(Stub.loadTreeView(bipper));
         treeView.getSelectionModel().getSelectedItems().addListener((ListChangeListener<TreeItem<CTempAbstrait>>) c -> majInfoCapteur());
         comboBox.setOnAction(actionEvent -> changementStrat(comboBox.getValue()));
         spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,60,1));
         treeView.setRoot(root);
         treeView.setShowRoot(false);
+        toggleButton.setText("Activer / Désactiver");
+        //bipper.start();
         //treeView.getSelectionModel().selectFirst();
     }
 }

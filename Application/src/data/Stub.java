@@ -3,19 +3,20 @@ package data;
 import model.capteur.*;
 import model.generateur.GenerateurAlea;
 import model.generateur.GenerateurIntervalle;
+import model.util.Bipper;
 
 public class Stub {
-    public static CTempAbstrait loadTreeView() {
+    public static CTempAbstrait loadTreeView(Bipper bipper) {
         CTempAbstrait racine = new CTempVirtuel("Capteur virtuel", 5);
         CTempAbstrait capteurV = new CTempVirtuel("Capteur virtuel", 5);
         CTempAbstrait capteurV2 = new CTempVirtuel("Capteur virtuel 2", 5);
-        CTemperature capteur1 = new CTemperature("Capteur 1", 5, new GenerateurAlea());
+        CTemperature capteur1 = new CTemperature("Capteur 1", 5, new GenerateurAlea(), bipper);
         //new Bipper((CTempAuto) capteur1, 1000).start();
 
-        CTemperature capteur2 = new CTemperature("Capteur 2", 5, null);
-        CTemperature capteur3 = new CTemperature("Capteur 3", 10, new GenerateurIntervalle(-10,30));
-        CTemperature capteur4 = new CTemperature("Capteur 4", -9, null);
-        CTemperature capteur5 = new CTemperature("Capteur 5", 65, null);
+        CTemperature capteur2 = new CTemperature("Capteur 2", 5, null,bipper);
+        CTemperature capteur3 = new CTemperature("Capteur 3", 10, new GenerateurIntervalle(-10,30),bipper);
+        CTemperature capteur4 = new CTemperature("Capteur 4", -9, null,bipper);
+        CTemperature capteur5 = new CTemperature("Capteur 5", 65, null,bipper);
 
         ((CTempVirtuel)capteurV).ajouterCapteur(capteur1,1);
         ((CTempVirtuel)capteurV).ajouterCapteur(capteur2,1);
