@@ -23,16 +23,11 @@ public class FenetreThermostat extends Visualisateur {
     @FXML
     private ListView<CTempAbstrait> listView;
 
-    //private CTemperature capteur;
 
     public FenetreThermostat(CTempAbstrait capteur) {
         super(capteur);
     }
 
-    @FXML
-    public void onChange() {
-
-    }
 
     @FXML
     public void boutonFermer() {

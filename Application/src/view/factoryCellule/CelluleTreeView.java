@@ -10,7 +10,7 @@ import javafx.scene.text.Text;
 import model.capteur.CTempAbstrait;
 import model.capteur.CTempVirtuel;
 
-public class celluleTreeView extends TreeCell {
+public class CelluleTreeView extends TreeCell {
     @FXML
     private ImageView image;
     @FXML

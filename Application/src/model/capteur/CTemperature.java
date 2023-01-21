@@ -13,7 +13,7 @@ public class CTemperature extends CTempAbstrait {
     @Override
     public double getTemperature() {return this.temperature.get();}
 
-    public void setTemperature(double temperature) {setTemperature(temperature);}
+    //public void setTemperature(double temperature) {setTemperature(temperature);}
 
 
     @Override

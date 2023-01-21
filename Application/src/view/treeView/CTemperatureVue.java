@@ -4,8 +4,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TreeItem;
 import model.capteur.CTempAbstrait;
 
-public class CTempAutoVue extends CTempAbstraitVue {
-    public CTempAutoVue(CTempAbstrait capteur) {
+public class CTemperatureVue extends CTempAbstraitVue {
+    public CTemperatureVue(CTempAbstrait capteur) {
         super(capteur);
     }
 

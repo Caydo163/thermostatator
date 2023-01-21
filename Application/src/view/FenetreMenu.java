@@ -20,7 +20,7 @@ import model.generateur.GenerateurVariation;
 import view.factoryCellule.celluleTableCoeff;
 import view.factoryCellule.celluleTableId;
 import view.factoryCellule.celluleTableType;
-import view.factoryCellule.celluleTreeView;
+import view.factoryCellule.CelluleTreeView;
 import view.treeView.FabriqueCTempAbstraitVue;
 
 import java.io.IOException;
@@ -114,16 +114,18 @@ public class FenetreMenu {
 
 
         if (capteur instanceof CTemperature && ((CTemperature) capteur).getStratGen() != null) {
-            toggleButton.setVisible(true);
+
             if(((CTemperature) capteur).getBipper().stopProperty().get()) {
                 toggleButton.setText("Arrêter la génération automatique");
             } else {
                 toggleButton.setText("Démarrer la génération automatique");
             }
-            spinner.setVisible(true);
+
 
             spinner.getValueFactory().valueProperty().bindBidirectional(((CTemperature) capteur).getBipper().tickProperty().asObject());
             toggleButton.selectedProperty().bindBidirectional(((CTemperature) capteur).getBipper().stopProperty());
+            spinner.setVisible(true);
+            toggleButton.setVisible(true);
         } else {
             toggleButton.setVisible(false);
             spinner.setVisible(false);
@@ -174,7 +176,7 @@ public class FenetreMenu {
         listeStratGen.add("Manuel");
 
         comboBox.setItems(listeStratGen);
-        treeView.setCellFactory(__ -> new celluleTreeView());
+        treeView.setCellFactory(__ -> new CelluleTreeView());
 
 
         tableId.setCellFactory(__ -> new celluleTableId());

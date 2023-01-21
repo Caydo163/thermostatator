@@ -31,14 +31,6 @@ public class CTempVirtuel extends CTempAbstrait {
         return listeCoeff.get();
     }
 
-    public List<CTempAbstrait> getCapteurs() {
-        /*
-        List<CTempAbstrait> list = new ArrayList<>();
-        for (Map.Entry<Integer, List<CTempAbstrait>> val : lesCapteurs.entrySet()) {
-            val.getValue().forEach(list::add);
-        }*/
-        return listeCapteurs;
-    }
 
     public void ajouterCapteur(CTempAbstrait capteur, Integer coeff) {
         /*if (lesCapteurs.containsKey(coeff)) {
@@ -92,7 +84,7 @@ public class CTempVirtuel extends CTempAbstrait {
 
     @Override
     public ObservableList<CTempAbstrait> getLesCapteurs() throws NoSuchMethodException {
-        return listeCapteursObs;
+        return getListeCapteurs();
     }
 
 

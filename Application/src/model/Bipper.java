@@ -7,14 +7,14 @@ import model.capteur.CTemperature;
 public class Bipper extends Thread{
 
     private CTemperature capteur;
-    protected IntegerProperty tick = new SimpleIntegerProperty();
+    private IntegerProperty tick = new SimpleIntegerProperty();
     public IntegerProperty tickProperty() {
         return tick;
     }
     private void setTick(int tick) {this.tick.set(tick);}
     public int getTick() { return tick.get();}
 
-    protected BooleanProperty stop = new SimpleBooleanProperty();
+    private BooleanProperty stop = new SimpleBooleanProperty();
     public BooleanProperty stopProperty() {
         return stop;
     }
