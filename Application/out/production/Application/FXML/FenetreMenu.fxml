@@ -43,7 +43,7 @@
                   <Insets bottom="15.0" />
                </VBox.margin>
             </HBox>
-            <HBox prefWidth="200.0">
+            <HBox prefWidth="200.0" fx:id="hbox_strategie">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Choix stratégie :">
                      <HBox.margin>
@@ -54,7 +54,7 @@
                </children>
             </HBox>
             <ToggleButton fx:id="toggleButton" />
-            <HBox prefWidth="200.0">
+            <HBox prefWidth="200.0" fx:id="hbox_tick">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tick génération (en seconde) :">
                      <HBox.margin>

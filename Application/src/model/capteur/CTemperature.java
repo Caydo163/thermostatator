@@ -1,7 +1,7 @@
 package model.capteur;
 
 import javafx.collections.ObservableList;
-import model.Bipper;
+import model.util.Bipper;
 import model.generateur.StrategieGenerateur;
 
 public class CTemperature extends CTempAbstrait {

@@ -11,6 +11,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.capteur.*;
@@ -51,7 +52,11 @@ public class FenetreMenu {
 
     @FXML
     private ToggleButton toggleButton;
+    @FXML
+    private HBox hbox_tick;
 
+    @FXML
+    private HBox hbox_strategie;
     @FXML
     private TableView<CTempAbstrait> tableView;
     @FXML
@@ -113,23 +118,28 @@ public class FenetreMenu {
         id.textProperty().setValue(String.valueOf(capteur.getId()));
 
 
+        if(capteur instanceof CTemperature) {
+            hbox_strategie.setVisible(true);
+            if(((CTemperature) capteur).getStratGen() != null) {
+                if(((CTemperature) capteur).getBipper().stopProperty().get()) {
+                    toggleButton.setText("Arrêter la génération automatique");
+                } else {
+                    toggleButton.setText("Démarrer la génération automatique");
+                }
 
-        if (capteur instanceof CTemperature && ((CTemperature) capteur).getStratGen() != null) {
-
-            if(((CTemperature) capteur).getBipper().stopProperty().get()) {
-                toggleButton.setText("Arrêter la génération automatique");
+                spinner.getValueFactory().valueProperty().bindBidirectional(((CTemperature) capteur).getBipper().tickProperty().asObject());
+                toggleButton.selectedProperty().bindBidirectional(((CTemperature) capteur).getBipper().stopProperty());
+                hbox_tick.setVisible(true);
+                toggleButton.setVisible(true);
             } else {
-                toggleButton.setText("Démarrer la génération automatique");
+                hbox_tick.setVisible(false);
+                toggleButton.setVisible(false);
             }
-
-
-            spinner.getValueFactory().valueProperty().bindBidirectional(((CTemperature) capteur).getBipper().tickProperty().asObject());
-            toggleButton.selectedProperty().bindBidirectional(((CTemperature) capteur).getBipper().stopProperty());
-            spinner.setVisible(true);
-            toggleButton.setVisible(true);
-        } else {
+        }
+        else {
+            hbox_strategie.setVisible(false);
+            hbox_tick.setVisible(false);
             toggleButton.setVisible(false);
-            spinner.setVisible(false);
         }
 
         if(capteur instanceof CTempVirtuel) {

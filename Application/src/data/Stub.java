@@ -1,6 +1,5 @@
 package data;
 
-import model.Bipper;
 import model.capteur.*;
 import model.generateur.GenerateurAlea;
 import model.generateur.GenerateurIntervalle;

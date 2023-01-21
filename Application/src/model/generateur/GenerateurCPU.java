@@ -1,5 +1,7 @@
 package model.generateur;
 
+import model.util.LecteurFichier;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -9,18 +11,12 @@ import java.util.Scanner;
 public class GenerateurCPU implements StrategieGenerateur {
     @Override
     public double compute(double temp) {
-        double value = 0;
-        InputStream file = null;
+        double value;
         try {
-            file = new FileInputStream("/sys/class/thermal/thermal_zone2/temp");
-            Scanner obj = new Scanner(file);
-            while (obj.hasNextLine())
-                value = Double.parseDouble(obj.nextLine())/1000;
-        } catch (FileNotFoundException e) {
-            Random random = new Random();
-            value = -30 + random.nextDouble(70-(-30));
+            value = LecteurFichier.lectureTemperatureCPU()/1000;
+        } catch (NumberFormatException e) {
+            value = 0;
         }
-        //temperatureProperty().set(value);
         return value;
     }
 

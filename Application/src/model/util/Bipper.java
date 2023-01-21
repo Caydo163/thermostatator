@@ -1,4 +1,4 @@
-package model;
+package model.util;
 
 import javafx.application.Platform;
 import javafx.beans.property.*;
