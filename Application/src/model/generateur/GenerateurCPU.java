@@ -15,7 +15,7 @@ public class GenerateurCPU implements StrategieGenerateur {
             file = new FileInputStream("/sys/class/thermal/thermal_zone2/temp");
             Scanner obj = new Scanner(file);
             while (obj.hasNextLine())
-                value = Double.parseDouble(obj.nextLine());
+                value = Double.parseDouble(obj.nextLine())/1000;
         } catch (FileNotFoundException e) {
             Random random = new Random();
             value = -30 + random.nextDouble(70-(-30));

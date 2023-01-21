@@ -15,6 +15,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import model.capteur.*;
 import model.generateur.GenerateurAlea;
+import model.generateur.GenerateurCPU;
 import model.generateur.GenerateurIntervalle;
 import model.generateur.GenerateurVariation;
 import view.factoryCellule.celluleTableCoeff;
@@ -159,6 +160,9 @@ public class FenetreMenu {
                 case "Intervalle":
                     ((CTemperature) capteurRecup).setStratGen(new GenerateurIntervalle(-10,30));
                     break;
+                case "CPU":
+                    ((CTemperature) capteurRecup).setStratGen(new GenerateurCPU());
+                    break;
                 case "Manuel":
                     ((CTemperature) capteurRecup).setStratGen(null);
                     break;
@@ -173,6 +177,7 @@ public class FenetreMenu {
         listeStratGen.add("Aléatoire");
         listeStratGen.add("Intervalle");
         listeStratGen.add("Variation");
+        listeStratGen.add("CPU");
         listeStratGen.add("Manuel");
 
         comboBox.setItems(listeStratGen);
