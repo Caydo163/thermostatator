@@ -53,7 +53,7 @@
                   <ComboBox fx:id="comboBox" prefWidth="150.0" />
                </children>
             </HBox>
-            <ToggleButton fx:id="toggleButton" />
+            <ToggleButton fx:id="toggleButton" text="Activer / Désactiver"/>
             <HBox prefWidth="200.0" fx:id="hbox_tick">
                <children>
                   <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tick génération (en seconde) :">

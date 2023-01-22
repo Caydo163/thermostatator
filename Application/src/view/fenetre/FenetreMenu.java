@@ -239,7 +239,6 @@ public class FenetreMenu {
         treeView.setCellFactory(__ -> new CelluleTreeView());
 
 
-        //tableId.setCellFactory(__ -> new celluleTableId());
         tableType.setCellFactory(__ -> new CelluleTableType());
         tablePoid.setCellFactory(__ -> new CelluleTablePoid());
 
@@ -269,9 +268,6 @@ public class FenetreMenu {
         treeView.setShowRoot(false);
         comboBox.setOnAction(actionEvent -> changementStrat(comboBox.getValue()));
         spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,60,1));
-
-
-        toggleButton.setText("Activer / Désactiver");
 
     }
 
