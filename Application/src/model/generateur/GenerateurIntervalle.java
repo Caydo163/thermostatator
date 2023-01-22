@@ -16,7 +16,6 @@ public class GenerateurIntervalle implements StrategieGenerateur {
     public double compute(double temp) {
         Random random = new Random();
         double value = min_intervalle + random.nextDouble(max_intervalle-min_intervalle);
-        //temperatureProperty().set(value);
         return value;
     }
 

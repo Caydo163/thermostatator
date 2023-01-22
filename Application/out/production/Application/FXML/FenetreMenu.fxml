@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.FenetreMenu">
+<BorderPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.fenetre.FenetreMenu">
    <left>
       <TreeView fx:id="treeView" prefHeight="200.0" prefWidth="250.0" BorderPane.alignment="CENTER" />
    </left>
@@ -74,6 +74,21 @@
                   <TableColumn fx:id="tableId" prefWidth="75.0" text="Id" />
               </columns>
             </TableView>
+            <HBox fx:id="hbox_bouton_table">
+               <children>
+                  <Button mnemonicParsing="false" onAction="#clicBoutonSupprimer" text="Supprimer capteur">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#clicBoutonAjouterC" text="Ajouter capteur">
+                     <HBox.margin>
+                        <Insets right="20.0" />
+                     </HBox.margin>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#clicBoutonAjouterCV" text="Ajouter capteur virtuel" />
+               </children>
+            </HBox>
          </children>
          <padding>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />

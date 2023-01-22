@@ -15,7 +15,7 @@ public class Bipper extends Thread{
     public BooleanProperty stopProperty() {
         return stop;
     }
-    private void setStop(boolean stop) {
+    public void setStop(boolean stop) {
         this.stop.set(stop);
         if(stop) {
             this.start();

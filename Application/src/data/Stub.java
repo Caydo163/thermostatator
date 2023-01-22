@@ -11,7 +11,6 @@ public class Stub {
         CTempAbstrait capteurV = new CTempVirtuel("Capteur virtuel", 5);
         CTempAbstrait capteurV2 = new CTempVirtuel("Capteur virtuel 2", 5);
         CTemperature capteur1 = new CTemperature("Capteur 1", 5, new GenerateurAlea(), bipper);
-        //new Bipper((CTempAuto) capteur1, 1000).start();
 
         CTemperature capteur2 = new CTemperature("Capteur 2", 5, null,bipper);
         CTemperature capteur3 = new CTemperature("Capteur 3", 10, new GenerateurIntervalle(-10,30),bipper);

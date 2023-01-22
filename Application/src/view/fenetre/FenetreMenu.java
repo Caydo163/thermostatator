@@ -1,4 +1,4 @@
-package view;
+package view.fenetre;
 
 import data.Stub;
 import javafx.collections.FXCollections;
@@ -20,18 +20,20 @@ import model.generateur.GenerateurCPU;
 import model.generateur.GenerateurIntervalle;
 import model.generateur.GenerateurVariation;
 import model.util.Bipper;
+import view.ItemTableView;
 import view.factoryCellule.CelluleTablePoid;
-import view.factoryCellule.celluleTableId;
 import view.factoryCellule.CelluleTableType;
 import view.factoryCellule.CelluleTreeView;
 import view.treeView.FabriqueCTempAbstraitVue;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class FenetreMenu {
     private CTempAbstrait capteur;
+
+    private CTempAbstrait racine;
+
+    private Bipper bipper;
 
     @FXML
     private Button boutonSlider;
@@ -60,6 +62,9 @@ public class FenetreMenu {
 
     @FXML
     private HBox hbox_strategie;
+
+    @FXML
+    private HBox hbox_bouton_table;
     @FXML
     private TableView<ItemTableView> tableView;
     @FXML
@@ -71,7 +76,6 @@ public class FenetreMenu {
     @FXML
     private TableColumn<ItemTableView, String> tableType;
 
-    //private ObservableList<ObservableList> listeTableView = FXCollections.observableArrayList();
 
     private ObservableList<ItemTableView> listeTableView;
 
@@ -103,8 +107,41 @@ public class FenetreMenu {
 
     @FXML
     public void clicBoutonFermer() {
+        bipper.setStop(false);
         Stage stage = (Stage) nom.getScene().getWindow();
         stage.close();
+    }
+
+    private void majTreeView() {
+        var item = treeView.getSelectionModel().getSelectedItem();
+        treeView.setRoot(FabriqueCTempAbstraitVue.from(racine));
+        treeView.getSelectionModel().select(item);
+        majInfoCapteur();
+    }
+
+    @FXML
+    public void clicBoutonSupprimer() {
+        var itemId = tableView.getSelectionModel().getSelectedItem().getId();
+        for(CTempAbstrait c : ((CTempVirtuel)capteur).getListeCapteurs()) {
+            if(c.getId() == itemId) {
+                if(c instanceof CTemperature) {
+                    bipper.removeCapteur((CTemperature) c);
+                }
+                ((CTempVirtuel) capteur).supprimerCapteur(c);
+                break;
+            }
+        }
+        majTreeView();
+    }
+    @FXML
+    public void clicBoutonAjouterC() {
+        ((CTempVirtuel) capteur).ajouterCapteur(new CTemperature("Capteur ajouté", 0, null, bipper),1);
+        majTreeView();
+    }
+    @FXML
+    public void clicBoutonAjouterCV() {
+        ((CTempVirtuel) capteur).ajouterCapteur(new CTempVirtuel("Capteur ajouté", 0),1);
+        majTreeView();
     }
 
 
@@ -149,10 +186,13 @@ public class FenetreMenu {
             tableType.setCellValueFactory(new PropertyValueFactory<>("icon"));
             tableView.setItems(listeTableView);
             tableView.setVisible(true);
+            hbox_bouton_table.setVisible(true);
         } else {
             var strat = (((CTemperature) capteur).getStratGen() != null) ? ((CTemperature) capteur).getStratGen().toString() : "Manuel";
             comboBox.getSelectionModel().select(strat);
             tableView.setVisible(false);
+            hbox_bouton_table.setVisible(false);
+
         }
     }
 
@@ -181,6 +221,8 @@ public class FenetreMenu {
 
     }
 
+
+
     public void initialize() {
         ObservableList<String> listeStratGen = FXCollections.observableArrayList();
         listeStratGen.add("Aléatoire");
@@ -196,15 +238,18 @@ public class FenetreMenu {
         //tableId.setCellFactory(__ -> new celluleTableId());
         tableType.setCellFactory(__ -> new CelluleTableType());
         tablePoid.setCellFactory(__ -> new CelluleTablePoid());
-        var bipper = new Bipper();
-        var root = FabriqueCTempAbstraitVue.from(Stub.loadTreeView(bipper));
+        bipper = new Bipper();
         treeView.getSelectionModel().getSelectedItems().addListener((ListChangeListener<TreeItem<CTempAbstrait>>) c -> majInfoCapteur());
-        comboBox.setOnAction(actionEvent -> changementStrat(comboBox.getValue()));
-        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,60,1));
+        racine = Stub.loadTreeView(bipper);
+        var root = FabriqueCTempAbstraitVue.from(racine);
         treeView.setRoot(root);
         treeView.setShowRoot(false);
+        comboBox.setOnAction(actionEvent -> changementStrat(comboBox.getValue()));
+        spinner.setValueFactory(new SpinnerValueFactory.IntegerSpinnerValueFactory(0,60,1));
+
+
         toggleButton.setText("Activer / Désactiver");
-        //bipper.start();
-        //treeView.getSelectionModel().selectFirst();
     }
+
+
 }

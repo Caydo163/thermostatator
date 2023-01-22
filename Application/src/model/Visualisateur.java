@@ -7,7 +7,6 @@ public abstract class Visualisateur  {
 
     public Visualisateur(CTempAbstrait capteur) {
         this.capteur = capteur;
-        //this.capteur.add(this);
     }
 
 

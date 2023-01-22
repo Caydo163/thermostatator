@@ -43,7 +43,6 @@ public class CTemperature extends CTempAbstrait {
     }
     public boolean getActivate() { return activate.get();}
 
-    //public void setTemperature(double temperature) {setTemperature(temperature);}
 
 
     @Override
@@ -55,9 +54,6 @@ public class CTemperature extends CTempAbstrait {
     public StrategieGenerateur getStratGen() {return stratGen;}
     public void setStratGen(StrategieGenerateur strat) {
         this.stratGen = strat;
-        /*if(strat != null) {
-            this.bipper = new Bipper(this, 1);
-        }*/
     }
 
     public void compute() {
