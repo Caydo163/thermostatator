@@ -1,6 +1,7 @@
 package view.fenetre;
 
 import data.Stub;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -255,6 +256,11 @@ public class FenetreMenu {
                     }
                 });
                 contextMenu.getItems().add(removeItem);
+                row.contextMenuProperty().bind(
+                        Bindings.when(row.emptyProperty())
+                                .then((ContextMenu)null)
+                                .otherwise(contextMenu)
+                );
                 return row;
             }
         });

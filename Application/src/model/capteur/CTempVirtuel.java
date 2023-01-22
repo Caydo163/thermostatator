@@ -43,11 +43,13 @@ public class CTempVirtuel extends CTempAbstrait {
         listeCapteursObs.add(capteur);
         listeCoeffObs.add(coeff);
         capteur.temperatureProperty().addListener((__, ___, newValue) -> majTemp());
+        majTemp();
     }
 
     public void supprimerCapteur(CTempAbstrait capteur) {
         listeCoeffObs.remove(listeCapteursObs.indexOf(capteur));
         listeCapteursObs.remove(capteur);
+        majTemp();
     }
 
     @Override
