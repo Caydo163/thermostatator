@@ -14,6 +14,7 @@ public class celluleTableId extends TableCell {
         super.updateItem(o, empty);
         if(!empty) {
             text = new Text();
+            System.out.println("id"+o);
             text.setText(String.valueOf(o));
             setGraphic(text);
         } else {

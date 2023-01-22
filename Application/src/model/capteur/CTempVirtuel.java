@@ -4,6 +4,7 @@ import javafx.beans.property.ListProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import view.ItemTableView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +30,16 @@ public class CTempVirtuel extends CTempAbstrait {
 
     public ObservableList<Integer> getListeCoeff() {
         return listeCoeff.get();
+    }
+
+    public ObservableList<ItemTableView> getListItem() {
+        ObservableList<ItemTableView> liste = FXCollections.observableArrayList();
+        for(CTempAbstrait c : listeCapteurs) {
+            String icon = (c instanceof CTempVirtuel) ? "multi_captor_icon.png" : "captor_icon.png";
+            int coeff = listeCoeff.get(listeCapteurs.indexOf(c));
+            liste.add(new ItemTableView(c.getId(), icon, coeff));
+        }
+        return liste;
     }
 
 

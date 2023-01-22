@@ -70,7 +70,7 @@
             <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0">
               <columns>
                 <TableColumn fx:id="tableType" prefWidth="75.0" text="Type" />
-                <TableColumn fx:id="tableCoeff" prefWidth="75.0" text="Coeff" />
+                <TableColumn fx:id="tablePoid" prefWidth="75.0" text="Coeff" />
                   <TableColumn fx:id="tableId" prefWidth="75.0" text="Id" />
               </columns>
             </TableView>

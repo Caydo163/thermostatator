@@ -20,13 +20,15 @@ import model.generateur.GenerateurCPU;
 import model.generateur.GenerateurIntervalle;
 import model.generateur.GenerateurVariation;
 import model.util.Bipper;
-import view.factoryCellule.celluleTableCoeff;
+import view.factoryCellule.CelluleTablePoid;
 import view.factoryCellule.celluleTableId;
-import view.factoryCellule.celluleTableType;
+import view.factoryCellule.CelluleTableType;
 import view.factoryCellule.CelluleTreeView;
 import view.treeView.FabriqueCTempAbstraitVue;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class FenetreMenu {
     private CTempAbstrait capteur;
@@ -59,17 +61,19 @@ public class FenetreMenu {
     @FXML
     private HBox hbox_strategie;
     @FXML
-    private TableView<CTempAbstrait> tableView;
+    private TableView<ItemTableView> tableView;
     @FXML
-    private TableColumn<CTempAbstrait,Integer> tableId;
+    private TableColumn<ItemTableView,String> tableId;
 
     @FXML
-    private TableColumn<ObservableList, ObservableList<Integer>> tableCoeff;
+    private TableColumn<ItemTableView, Integer> tablePoid;
 
     @FXML
-    private TableColumn<ObservableList, ObservableList<CTempAbstrait>> tableType;
+    private TableColumn<ItemTableView, String> tableType;
 
-    private ObservableList<ObservableList> listeTableView = FXCollections.observableArrayList();
+    //private ObservableList<ObservableList> listeTableView = FXCollections.observableArrayList();
+
+    private ObservableList<ItemTableView> listeTableView;
 
 
 
@@ -139,12 +143,11 @@ public class FenetreMenu {
         }
 
         if(capteur instanceof CTempVirtuel) {
-            /*listeTableView.addAll(((CTempVirtuel)capteur).getListeCapteurs(), ((CTempVirtuel)capteur).getListeCoeff());
-            tableId.setCellValueFactory(new PropertyValueFactory<CTempAbstrait, Integer>("id"));
-            ObservableList<CTempAbstrait> a = FXCollections.observableArrayList();
-            a.addAll(((CTempVirtuel)capteur).getListeCapteurs());
-            tableView.setItems(a);*/
-
+            listeTableView = ((CTempVirtuel) capteur).getListItem();
+            tableId.setCellValueFactory(new PropertyValueFactory<>("id"));
+            tablePoid.setCellValueFactory(new PropertyValueFactory<>("poid"));
+            tableType.setCellValueFactory(new PropertyValueFactory<>("icon"));
+            tableView.setItems(listeTableView);
             tableView.setVisible(true);
         } else {
             var strat = (((CTemperature) capteur).getStratGen() != null) ? ((CTemperature) capteur).getStratGen().toString() : "Manuel";
@@ -190,9 +193,9 @@ public class FenetreMenu {
         treeView.setCellFactory(__ -> new CelluleTreeView());
 
 
-        tableId.setCellFactory(__ -> new celluleTableId());
-        tableType.setCellFactory(__ -> new celluleTableType());
-        tableCoeff.setCellFactory(__ -> new celluleTableCoeff());
+        //tableId.setCellFactory(__ -> new celluleTableId());
+        tableType.setCellFactory(__ -> new CelluleTableType());
+        tablePoid.setCellFactory(__ -> new CelluleTablePoid());
         var bipper = new Bipper();
         var root = FabriqueCTempAbstraitVue.from(Stub.loadTreeView(bipper));
         treeView.getSelectionModel().getSelectedItems().addListener((ListChangeListener<TreeItem<CTempAbstrait>>) c -> majInfoCapteur());
