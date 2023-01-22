@@ -7,4 +7,4 @@ Ces capteurs peuvent générer des températures de manières aléatoire ou êtr
 
 ## Structure de l'application
 
-*diagramme de classe*
+![Diagramme de classe](Diagramme_classe.svg)

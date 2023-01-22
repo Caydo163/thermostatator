@@ -5,15 +5,19 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
+import javafx.util.Callback;
 import model.capteur.*;
 import model.generateur.GenerateurAlea;
 import model.generateur.GenerateurCPU;
@@ -238,8 +242,27 @@ public class FenetreMenu {
         //tableId.setCellFactory(__ -> new celluleTableId());
         tableType.setCellFactory(__ -> new CelluleTableType());
         tablePoid.setCellFactory(__ -> new CelluleTablePoid());
+
+        tableView.setRowFactory(new Callback<TableView<ItemTableView>, TableRow<ItemTableView>>() {
+            @Override
+            public TableRow<ItemTableView> call(TableView<ItemTableView> itemTableViewTableView) {
+                final TableRow<ItemTableView> row = new TableRow<>();
+                final ContextMenu contextMenu = new ContextMenu();
+                MenuItem removeItem = new MenuItem("Supprimer");
+                removeItem.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent actionEvent) {
+                        clicBoutonSupprimer();
+                    }
+                });
+                contextMenu.getItems().add(removeItem);
+                return row;
+            }
+        });
         bipper = new Bipper();
         treeView.getSelectionModel().getSelectedItems().addListener((ListChangeListener<TreeItem<CTempAbstrait>>) c -> majInfoCapteur());
+
+
         racine = Stub.loadTreeView(bipper);
         var root = FabriqueCTempAbstraitVue.from(racine);
         treeView.setRoot(root);
@@ -249,6 +272,7 @@ public class FenetreMenu {
 
 
         toggleButton.setText("Activer / Désactiver");
+
     }
 
 
